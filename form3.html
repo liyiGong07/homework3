@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #myInput {
+        background-position: 10px 12px; /*图片定位 */
+        background-repeat: no-repeat; /* 不重复图片 */
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+      #myTable {
+        border-collapse: collapse;
+        width: 60%;
+        border: 1px solid #ddd;
+        font-size: 18px;
+      }
+      #myTable th,
+      #myTable td {
+        text-align: left;
+        padding: 12px;
+      }
+      #myTable tr {
+        /* 表格添加边框 */
+        border-bottom: 1px solid #ddd;
+      }
+      #myTable tr.header,
+      #myTable tr:hover {
+        /* 表头及鼠标移动过 tr 时添加背景 */
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="myInput" placeholder="搜索公司..." />
+    <table id="myTable">
+      <tr class="header">
+        <th style="width: 60%" onclick="sort(0)">公司名称</th>
+        <th style="width: 40%" onclick="sort(1)">国家</th>
+      </tr>
+      <tr>
+        <td>Berglunds snabbkop</td>
+        <td>Dweden</td>
+      </tr>
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>EGermany</td>
+      </tr>
+      <tr>
+        <td>Coniglich Essen</td>
+        <td>Aermany</td>
+      </tr>
+      <tr>
+        <td>Esland Trading</td>
+        <td>BK</td>
+      </tr>
+      <tr>
+        <td>Erland Trading</td>
+        <td>CK</td>
+      </tr>
+    </table>
+  </body>
+  <script>
+    <!--排序功能-->
+    function sort(n) {
+      let table,
+        rows,
+        switching,
+        i,
+        j,
+        x, //交换的两项
+        y,
+        way,
+        switchcount = 0,
+        len;
+      way = "asc"; //排序方式 “asc”正序  “desc”倒序
+      table = document.getElementById("myTable"); //得到表格
+
+      switching = true; //是否继续
+      while (switching) {
+        switching = false;
+        rows = table.rows; //获取表格的每一行到一链表中
+        len = rows.length;
+        for (i = 1; i < len - 1; i++) {
+          for (j = 1; j < len - i; j++) {
+            x = rows[j].getElementsByTagName("TD")[n];
+            y = rows[j + 1].getElementsByTagName("TD")[n];
+            if (way == "asc") {
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                rows[j].parentNode.insertBefore(rows[j + 1], rows[j]);
+                switchcount++;
+              }
+            } else if (way == "desc") {
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                rows[j].parentNode.insertBefore(rows[j + 1], rows[j]);
+                switchcount++;
+              }
+            }
+          }
+        }
+        if (switchcount == 0 && way == "asc") {
+          way = "desc";
+          switching = true;
+        }
+      }
+    }
+  </script>
+  <script>
+    <!-- 搜索功能-->
+    function search() {
+      let input = document.getElementById("myInput");
+      let filter = input.value.toUpperCase();
+      let table = document.getElementById("myTable");
+      let tr = table.querySelectorAll("tr");
+      // 循环表格每一行，查找匹配项
+      for (let i = 0; i < tr.length; i++) {
+        let td = tr[i].querySelectorAll("td")[0]; //获得第一列（公司名称）
+        if (td) {
+          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    let input = document.getElementById("myInput");
+    input.addEventListener("input", search);
+  </script>
+</html>
