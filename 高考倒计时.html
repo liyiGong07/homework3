@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background: black url(bg.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-attachment: fixed;
+        background-blend-mode: hard-light;
+      }
+
+      .container {
+        position: absolute;
+        top: 80px;
+        left: 100px;
+        right: 100px;
+        bottom: 80px;
+        background: url(bg.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: 0 50px 50px rgba(0, 0, 0, 0.5),
+          0 0 0 100px rgba(0, 0, 0, 0.1);
+      }
+      .container span {
+        display: block;
+        font-weight: 300;
+        font-size: 5em;
+        color: rgb(153, 155, 185);
+        margin-top: -210px;
+      }
+      .container h2 {
+        text-align: center;
+        font-size: 8em;
+        line-height: 0.7em;
+        color: white;
+        margin-top: 50px;
+        margin-bottom: 10px;
+      }
+      .countdown {
+        display: flex;
+        margin-top: 50px;
+      }
+      .countdown div {
+        position: relative;
+        width: 95px;
+        height: 95px;
+        line-height: 100px;
+        text-align: center;
+        background: #333;
+        color: #fff;
+        margin: 0 15px;
+        font-size: 3em;
+        font-weight: 500;
+        /* transition: width 1s linear;
+        transition: height 1s linear; */
+      }
+      .countdown div:hover {
+        /* width: 100px;
+        height: 100px; */
+        transform: scaleZ(1.5);
+      }
+      .countdown div:before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        left: 0;
+        width: 100%;
+        height: 35px;
+        background: rgb(188, 186, 59);
+        color: #efecec;
+        font-size: 0.35em;
+        line-height: 35px;
+        font-weight: 300;
+      }
+      .container #day:before {
+        content: "Days";
+      }
+      .container #hour:before {
+        content: "Hours";
+      }
+      .container #minute:before {
+        content: "Minutes";
+      }
+      .container #second:before {
+        content: "Seconds";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <span>Countdown to NCEE</span>
+      <h2></h2>
+      <div class="countdown">
+        <div id="day">NA</div>
+        <div id="hour">NA</div>
+        <div id="minute">NA</div>
+        <div id="second">NA</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function countDown() {
+      let mydate = new Date();
+      let nowTime = new Date();
+      let year = mydate.getFullYear() + 1;
+      document.querySelector("h2").innerHTML = year;
+      let endTime = new Date("" + year + "/06/07 00:00:00");
+      let t = endTime.getTime() - nowTime.getTime();
+
+      let d = Math.floor(t / 1000 / 60 / 60 / 24);
+      let h = Math.floor((t / 1000 / 60 / 60) % 24);
+      let m = Math.floor((t / 1000 / 60) % 60);
+      let s = Math.floor((t / 1000) % 60);
+
+      document.getElementById("day").innerHTML = d;
+      document.getElementById("hour").innerText = h;
+      document.getElementById("minute").innerText = m;
+      document.getElementById("second").innerText = s;
+    }
+    setInterval(countDown, 1000);
+  </script>
+</html>
